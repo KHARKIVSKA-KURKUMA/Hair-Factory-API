@@ -17,8 +17,13 @@ const addEnrolment = async (req, res) => {
       });
     }
   } else {
-    const { _id: owner } = req;
-    const result = await Enrolment.create({ ...req.body, owner });
+    const { user } = req;
+    const { _id: owner, email, username } = user;
+    const ownerInfo = {
+      email,
+      username,
+    };
+    const result = await Enrolment.create({ ...req.body, owner, ownerInfo });
     res.status(201).json(result);
   }
 };

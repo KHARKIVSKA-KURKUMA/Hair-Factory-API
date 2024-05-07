@@ -4,9 +4,10 @@ const ctrl = require(`${basedir}/controllers/enrollments`);
 const { controllersWrap } = require(`${basedir}/helpers`);
 
 const router = express.Router();
+const { auth } = require(`${basedir}/middleware`);
 
 /* ---------------------------------- Path ---------------------------------- */
 router.get("/", controllersWrap(ctrl.getEnrolmentList));
-router.post("/", controllersWrap(ctrl.addEnrolment));
+router.post("/", auth, controllersWrap(ctrl.addEnrolment));
 
 module.exports = router;

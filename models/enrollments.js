@@ -17,7 +17,10 @@ const enrolmentSchema = Schema(
     },
     owner: {
       type: Schema.Types.ObjectId,
-      ref: "user",
+      ref: "users",
+    },
+    ownerInfo: {
+      type: Object,
     },
   },
   { versionKey: false, timestamps: true }
