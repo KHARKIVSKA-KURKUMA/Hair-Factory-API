@@ -3,6 +3,7 @@ const addEnrolment = require("./addEnrolment");
 const deleteEnrolment = require("./deleteEnrolment");
 const editEnrolment = require("./editEnrolment");
 const getEnrolment = require("./getEnrolment");
+const getMasterEnrolment = require("./getMasterEnrolment");
 
 module.exports = {
   getEnrolmentList,
@@ -10,4 +11,5 @@ module.exports = {
   deleteEnrolment,
   editEnrolment,
   getEnrolment,
+  getMasterEnrolment,
 };

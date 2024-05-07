@@ -10,6 +10,7 @@ const { auth } = require(`${basedir}/middleware`);
 router.get("/", controllersWrap(ctrl.getEnrolmentList));
 router.post("/", auth, controllersWrap(ctrl.addEnrolment));
 router.get("/:enrolmentId", controllersWrap(ctrl.getEnrolment));
+router.get("/master/:masterId", controllersWrap(ctrl.getMasterEnrolment));
 router.delete("/:enrolmentId", controllersWrap(ctrl.deleteEnrolment));
 router.put("/:enrolmentId", controllersWrap(ctrl.editEnrolment));
 
