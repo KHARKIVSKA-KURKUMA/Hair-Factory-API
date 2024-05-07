@@ -1,9 +1,9 @@
 const getCurrent = async (req, res) => {
-  console.log("req.user :>> ", req.user);
-  const { subscription, email } = req.user;
+  const { role, email, username } = req.user;
   res.json({
+    username,
     email,
-    subscription,
+    role,
   });
 };
 

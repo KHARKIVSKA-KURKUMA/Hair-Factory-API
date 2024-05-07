@@ -27,9 +27,6 @@ const login = async (req, res) => {
   if (!user) {
     throw errorMessage({ status: 401, message: "Email or password is wrong" });
   }
-  if (!user.verify) {
-    throw errorMessage({ status: 401, message: "Email is not verified" });
-  }
   const comparePassword = await bcrypt.compare(password, user.password);
   if (!comparePassword) {
     throw errorMessage({ status: 401, message: "Email or password is wrong" });
@@ -43,8 +40,9 @@ const login = async (req, res) => {
   res.json({
     token,
     user: {
+      username: user.username,
       email: user.email,
-      subscription: user.subscription,
+      role: user.role,
     },
   });
 };

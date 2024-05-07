@@ -1,13 +1,9 @@
 const bcrypt = require("bcryptjs");
-const gravatar = require("gravatar");
-const { v4: uuid } = require("uuid");
 const { basedir } = global;
+const jwt = require("jsonwebtoken");
 const { User, schemas } = require(`${basedir}/models/user`);
-const {
-  errorMessage,
-  emailSender,
-  verificationLetter,
-} = require(`${basedir}/helpers`);
+const { errorMessage } = require(`${basedir}/helpers`);
+const { SECRET_KEY } = process.env;
 
 const register = async (req, res) => {
   const { error } = schemas.register.validate(req.body);
@@ -31,18 +27,28 @@ const register = async (req, res) => {
     throw errorMessage({ status: 409, message: `Email ${email} in use` });
   }
   const hashPassword = await bcrypt.hash(password, 10);
-  const avatarURL = gravatar.url(email);
-  const verificationToken = uuid();
-  const result = await User.create({
-    ...req.body,
-    password: hashPassword,
-    avatarURL,
-    verificationToken,
-  });
-  await emailSender(verificationLetter(email, verificationToken));
-  res.status(201).json({
-    user: { email: result.email, subscription: "starter" },
-  });
+  try {
+    const result = await User.create({ ...req.body, password: hashPassword });
+    const payload = {
+      id: result._id,
+    };
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "24h" });
+    if (result) {
+      await User.findByIdAndUpdate(result._id, { token });
+      res.status(201).json({
+        token,
+        user: {
+          username: result.username,
+          email: result.email,
+          role: "client",
+        },
+      });
+    } else {
+      console.error("Failed to create user");
+    }
+  } catch (error) {
+    console.error("Failed to create user:", error);
+  }
 };
 
 module.exports = register;

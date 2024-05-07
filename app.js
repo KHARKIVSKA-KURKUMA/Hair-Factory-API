@@ -6,7 +6,6 @@ require("dotenv").config();
 global.basedir = __dirname;
 
 const authRouter = require("./routes/api/auth");
-const contactsRouter = require("./routes/api/contacts");
 
 const app = express();
 
@@ -17,7 +16,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/users/", authRouter);
-app.use("/api/contacts", contactsRouter);
 app.use(express.static("public"));
 
 app.use((_, res) => {
