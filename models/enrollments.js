@@ -4,7 +4,7 @@ const Joi = require("joi");
 const enrolmentSchema = Schema(
   {
     master: {
-      type: Number,
+      type: String,
       required: true,
     },
     enrolmentDate: {
@@ -29,7 +29,7 @@ const enrolmentSchema = Schema(
 const Enrolment = model("enrollments", enrolmentSchema);
 
 const enrolmentAddSchema = Joi.object({
-  master: Joi.number().required(),
+  master: Joi.string().required(),
   enrolmentDate: Joi.date().required(),
   enrolmentTime: Joi.string().required(),
 });
