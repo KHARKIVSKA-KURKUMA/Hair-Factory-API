@@ -7,6 +7,9 @@ global.basedir = __dirname;
 /* --------------------------------- Routes --------------------------------- */
 const authRouter = require("./routes/api/auth");
 const enrolmentRouter = require("./routes/api/enrollments");
+/* --------------------------------- SWAGGER -------------------------------- */
+const swaggerUI = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
 
 const app = express();
 
@@ -19,6 +22,7 @@ app.use(express.json());
 /* ---------------------------------- Path ---------------------------------- */
 app.use("/users/", authRouter);
 app.use("/enrollments/", enrolmentRouter);
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 /* -------------------------------------------------------------------------- */
 app.use(express.static("public"));
 app.use((_, res) => {

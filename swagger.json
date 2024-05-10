@@ -1,0 +1,492 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "Hair Factory Swagger API",
+    "description": " API to manage records in the salon "
+  },
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "servers": [
+    {
+      "url": "https://hair-factory-api.onrender.com"
+    },
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Authorization",
+      "description": "Authorization endpoints"
+    },
+    {
+      "name": "Enrollments",
+      "description": "Enrollments endpoints"
+    }
+  ],
+  "basePath": "/",
+  "schemes": ["http"],
+  "paths": {
+    "/users/register": {
+      "post": {
+        "tags": ["Authorization"],
+        "summary": "User registration",
+        "description": "Registration's object",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "User's name"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "User's email",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "User's password",
+                    "format": "password",
+                    "minLength": 6
+                  }
+                },
+                "required": ["username", "email", "password"],
+                "example": {
+                  "username": "Username",
+                  "email": "example@gmail.com",
+                  "password": "123456"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "token": "token",
+                    "user": {
+                      "username": "Username",
+                      "email": "example@gmail.com"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": ["Authorization"],
+        "summary": "User login",
+        "description": "Login's object",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "User's email",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "User's password",
+                    "format": "password",
+                    "minLength": 6
+                  }
+                },
+                "required": ["email", "password"],
+                "example": {
+                  "name": "Username",
+                  "email": "example@gmail.com",
+                  "password": "123456"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "token": "token",
+                    "user": {
+                      "name": "Username",
+                      "email": "example@gmail.com"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/current": {
+      "get": {
+        "tags": ["Authorization"],
+        "summary": "Get current user info",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "_id": "someUserID",
+                    "name": "Username",
+                    "email": "example@gmail.com"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "post": {
+        "tags": ["Authorization"],
+        "summary": "User logout",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "message": "User logout successful"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/enrollments/": {
+      "get": {
+        "tags": ["Enrollments"],
+        "summary": "To receive all user enrollments in the database",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "example": [
+                    {
+                      "_id": "1",
+                      "master": "3233dsd",
+                      "phone": "390883838833",
+                      "enrolmentDate": "2024-05-22T00:00:00.000Z",
+                      "enrolmentTime": "5:00 PM",
+                      "owner": "54545",
+                      "ownerInfo": {
+                        "email": "test@gmail.com",
+                        "username": "Test"
+                      }
+                    },
+                    {
+                      "_id": "dssfd4443",
+                      "master": "cjdgfshff",
+                      "phone": "30967677676",
+                      "enrolmentDate": "2024-05-22T00:00:00.000Z",
+                      "enrolmentTime": "5:00 PM",
+                      "owner": "54545",
+                      "ownerInfo": {
+                        "email": "test@gmail.com",
+                        "username": "Test"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Enrollments"],
+        "summary": "To add enrollment",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "properties": {
+                    "master": {
+                      "type": "string",
+                      "description": "Master ID",
+                      "required": true
+                    },
+                    "phone": {
+                      "type": "string",
+                      "description": "Client phone",
+                      "required": true
+                    },
+                    "enrolmentDate": {
+                      "type": "date",
+                      "description": "Enroll date",
+                      "required": true
+                    },
+                    "enrolmentTime": {
+                      "type": "string",
+                      "description": "Enroll time",
+                      "required": true
+                    }
+                  }
+                },
+                "required": true,
+                "example": {
+                  "master": "cjdgfshff",
+                  "enrolmentDate": "2026-10-05",
+                  "enrolmentTime": "3:00 PM",
+                  "phone": "0951111111"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "master": "cjdgfshff",
+                    "phone": "0951111111",
+                    "enrolmentDate": "2024-10-05T00:00:00.000Z",
+                    "enrolmentTime": "3:00 PM",
+                    "owner": "54545",
+                    "ownerInfo": {
+                      "email": "test@gmail.com",
+                      "username": "Test"
+                    },
+                    "_id": "dfhgfhdjfhdsgf",
+                    "createdAt": "2024-05-10T18:32:12.420Z",
+                    "updatedAt": "2024-05-10T18:32:12.420Z"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/enrollments/{enrolmentId}": {
+      "get": {
+        "tags": ["Enrollments"],
+        "summary": "To receive user enrollment by ID in the database",
+        "parameters": [
+          {
+            "name": "enrolmentId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "_id": "dsdsdsdsd",
+                    "master": "cjdgfshff",
+                    "phone": "0951111111",
+                    "enrolmentDate": "2024-10-05T00:00:00.000Z",
+                    "enrolmentTime": "3:00 PM",
+                    "owner": "343434343434",
+                    "ownerInfo": {
+                      "email": "test@gmail.com",
+                      "username": "Test"
+                    },
+                    "createdAt": "2024-05-10T18:32:12.420Z",
+                    "updatedAt": "2024-05-10T18:32:12.420Z"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Enrollments"],
+        "summary": "To delete enrollment by ID ",
+        "parameters": [
+          {
+            "name": "enrolmentId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "message": "Enrollment deleted"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Enrollments"],
+        "summary": "To update enrolment by ID ",
+        "parameters": [
+          {
+            "name": "enrolmentId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "properties": {
+                    "properties": {
+                      "master": {
+                        "type": "string",
+                        "description": "Master ID",
+                        "required": true
+                      },
+                      "phone": {
+                        "type": "string",
+                        "description": "Client phone",
+                        "required": true
+                      },
+                      "enrolmentDate": {
+                        "type": "date",
+                        "description": "Enroll date",
+                        "required": true
+                      },
+                      "enrolmentTime": {
+                        "type": "string",
+                        "description": "Enroll time",
+                        "required": true
+                      }
+                    }
+                  }
+                },
+                "required": true,
+                "example": {
+                  "master": "cjdgfshfmasterf",
+                  "enrolmentDate": "2026-10-05",
+                  "enrolmentTime": "3:00 PM",
+                  "phone": "0951111111"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "_id": "dsdsdsdsd",
+                    "master": "cjdgfshff",
+                    "phone": "0951111111",
+                    "enrolmentDate": "2024-10-05T00:00:00.000Z",
+                    "enrolmentTime": "3:00 PM",
+                    "owner": "343434343434",
+                    "ownerInfo": {
+                      "email": "test@gmail.com",
+                      "username": "Test"
+                    },
+                    "createdAt": "2024-05-10T18:32:12.420Z",
+                    "updatedAt": "2024-05-10T18:32:12.420Z"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
